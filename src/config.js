@@ -4,6 +4,7 @@ const ENV = process.env.NODE_ENV || 'development';
 if (ENV === 'development') dotenv.load();
 
 const config = {
+  USERNAME: process.env.USERNAME,
   ENV: process.env.NODE_ENV,
   PORT: process.env.PORT,
   PROXY_URI: process.env.PROXY_URI,
