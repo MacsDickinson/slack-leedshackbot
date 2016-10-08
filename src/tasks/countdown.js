@@ -1,6 +1,7 @@
 const config = require('../config');
 const Botkit = require('botkit');
 const moment = require('moment');
+require('moment-precise-range-plugin');
 
 const controller = Botkit.slackbot({});
 const bot = controller.spawn();
