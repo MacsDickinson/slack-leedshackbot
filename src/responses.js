@@ -1,3 +1,5 @@
+'use strict';
+
 const moment = require('moment');
 const getRemainingTime = require('./getRemainingTime');
 require('moment-timezone');
