@@ -8,7 +8,7 @@ const bot = controller.spawn();
 
 bot.configureIncomingWebhook({ url: config('WEBHOOK_URL') });
 
-const end = moment('2016-10-09').startOf('day').add(13, 'hours');
+const end = moment('2016-10-09').utcOffset(60).startOf('day').add(13, 'hours');
 const diff = getRemainingTime(end);
 
 const msg = {

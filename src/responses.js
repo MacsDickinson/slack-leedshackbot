@@ -2,11 +2,10 @@
 
 const moment = require('moment');
 const getRemainingTime = require('./getRemainingTime');
-require('moment-timezone');
 
 const responses = [
   { pattern: /hello/g, response: 'hi' },
-  { pattern: /how long/g, response: getRemainingTime(moment('2016-10-09').startOf('day').add(13, 'hours')) },
+  { pattern: /how long/g, response: getRemainingTime(moment('2016-10-09').utcOffset(60).startOf('day').add(13, 'hours')) },
   { pattern: /server time/g, response: moment().format() }
 ];
 
