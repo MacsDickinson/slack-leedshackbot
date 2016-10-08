@@ -16,7 +16,7 @@ const msg = {
   response_type: 'in_channel',
   username: config('USERNAME'),
   icon_emoji: config('ICON_EMOJI'),
-  text: 'Hacking ends ' + preciseDiff
+  text: preciseDiff + ' to go'
 };
 
 bot.sendWebhook(msg, (error, res) => {
