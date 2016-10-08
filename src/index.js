@@ -1,10 +1,7 @@
 const express = require('express');
 const proxy = require('express-http-proxy');
 const bodyParser = require('body-parser');
-const _ = require('lodash');
 const config = require('./config');
-const commands = require('./commands');
-const helpCommand = require('./commands/help');
 
 const bot = require('./bot');
 
@@ -20,24 +17,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => { res.send('\n 👋 🌍 \n'); });
-
-app.post('/commands/starbot', (req, res) => {
-  const payload = req.body;
-
-  if (!payload || payload.token !== config('STARBOT_COMMAND_TOKEN')) {
-    const err = '✋  Star—what? An invalid slash token was provided\n' +
-              '   Is your Slack slash token correctly configured?';
-    console.log(err);
-    res.status(401).end(err);
-    return;
-  }
-
-  const cmd = _.reduce(commands, (a, command) => {
-    return payload.text.match(cmd.pattern) ? command : a;
-  }, helpCommand);
-
-  cmd.handler(payload, res);
-});
 
 app.listen(config('PORT'), (err) => {
   if (err) throw err;

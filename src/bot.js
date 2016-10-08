@@ -1,6 +1,7 @@
 const slack = require('slack');
 const _ = require('lodash');
 const config = require('./config');
+const matchResponse = require('./responses');
 
 const bot = slack.rtm.client();
 
@@ -12,12 +13,14 @@ bot.message((msg) => {
   if (!msg.user) return;
   if (!_.includes(msg.text.match(/<@([A-Z0-9])+>/igm), `<@${this.self.id}>`)) return;
 
+  const response = matchResponse(msg.text);
+
   slack.chat.postMessage({
     token: config('SLACK_TOKEN'),
     icon_emoji: config('ICON_EMOJI'),
     channel: msg.channel,
-    username: 'Starbot',
-    text: `beep boop: I hear you loud and clear!"`
+    username: config('USERNAME'),
+    text: response
   }, (err, data) => {
     if (err) throw err;
 
