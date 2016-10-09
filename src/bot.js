@@ -5,7 +5,7 @@ const matchResponse = require('./responses');
 const cljs = require('clojurescript');
 
 const bot = slack.rtm.client();
-const ctx = cljs.newContext();
+let ctx = cljs.newContext();
 
 function postResponse(response, channel) {
   console.log('response => ', response);
@@ -28,10 +28,15 @@ function postResponse(response, channel) {
 function executeClojure(msg) {
   try {
     const closure = msg.text.replace('cljs ', '');
+    if (closure === 'reset') {
+      ctx = cljs.newContext();
+      postResponse('clojure context reset', msg.channel);
+      return;
+    }
     const result = cljs.eval(closure, ctx);
     console.log('result -> ', result);
     if (typeof result === 'string' || typeof result === 'number' || typeof result === 'boolean') {
-      postResponse(result, msg.channel);
+      postResponse(`> ${result}`, msg.channel);
     }
   } catch (e) {
     postResponse('Fail => ' + e.message, msg.channel);
