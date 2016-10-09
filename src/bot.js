@@ -1,3 +1,5 @@
+'use strict';
+
 const slack = require('slack');
 const _ = require('lodash');
 const config = require('./config');
