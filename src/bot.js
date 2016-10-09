@@ -2,23 +2,18 @@ const slack = require('slack');
 const _ = require('lodash');
 const config = require('./config');
 const matchResponse = require('./responses');
+const cljs = require('clojurescript');
 
 const bot = slack.rtm.client();
+const ctx = cljs.newContext();
 
-bot.started((payload) => {
-  this.self = payload.self;
-});
-
-bot.message((msg) => {
-  if (!msg.user) return;
-  if (!_.includes(msg.text.match(/<@([A-Z0-9])+>/igm), `<@${this.self.id}>`)) return;
-
-  const response = matchResponse(msg.text);
+function postResponse(response, channel) {
+  console.log('response => ', response);
 
   slack.chat.postMessage({
     token: config('SLACK_TOKEN'),
     icon_emoji: config('ICON_EMOJI'),
-    channel: msg.channel,
+    channel,
     username: config('USERNAME'),
     text: response
   }, (err, data) => {
@@ -28,6 +23,40 @@ bot.message((msg) => {
 
     console.log(`🤖  beep boop: I responded with "${txt}"`);
   });
+}
+
+function executeClojure(msg) {
+  try {
+    const closure = msg.text.replace('cljs ', '');
+    const result = cljs.eval(closure, ctx);
+    console.log('result -> ', result);
+    if (typeof result === 'string') {
+      postResponse(result, msg.channel);
+    }
+  } catch (e) {
+    postResponse('Fail => ' + e.message, msg.channel);
+  }
+}
+
+bot.started((payload) => {
+  this.self = payload.self;
+});
+
+bot.message((msg) => {
+  if (!msg.user) return;
+  if (msg.text.match(/^cljs /g)) {
+    executeClojure(msg);
+    return;
+  }
+
+  const response = matchResponse(msg.text);
+
+  if (response) {
+    postResponse(response, msg.channel);
+    return;
+  }
+
+  // if (!_.includes(msg.text.match(/<@([A-Z0-9])+>/igm), `<@${this.self.id}>`)) return;
 });
 
 module.exports = bot;
