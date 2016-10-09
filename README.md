@@ -1,73 +1,41 @@
-# 🌟 Starbot
+# slack hackbot
 
-![Starbot](https://heroku-www-files.s3.amazonaws.com/starbot/starbot-banner.png)
+## Setup
 
-[![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
+This application requires a number of environment variables to be set to run locally (hooked up in `src/config.js`). Create a local `.env` file with relevant values.
 
-Starbot is [GitHub's trending open-source](https://github.com/trending/) page, reincarnated as a Slack bot. It is also the sample referenced in the ["How to Deploy Your Slack Bots to Heroku"](https://blog.heroku.com/archives/2016/3/9/how-to-deploy-your-slack-bots-to-heroku) blog post.
+    NODE_ENV=development
+    PORT=3000
+    WEBHOOK_URL='https://hooks.slack.com/services/WEBHOOK_URL'
+    CLOJURE_COMMAND_TOKEN='oIk16X7evTJupV7sM1FSKoB9'
+    SLACK_TOKEN='xoxb-slack-bot-key'
+    ICON_EMOJI=':boom:'
+    USERNAME='botname'
 
+To start the server run
 
-### Supported `/slash` commands
+    npm start
 
-Create a `/starbot` [custom slash command](https://api.slack.com/slash-commands), using the URL: `{app-name}.herokuapp.com/commands/starbot`. *Take note of the provided `token`, this is used to verify requests come from Slack.*
+## Functions
 
-- `/starbot` or `/starbot help` - List available commands
-- `/starbot repos` - Display trending GitHub projects
+### Countdown
 
-### Install
+This requires that a valid `WEBHOOK_URL` is set.
 
-```shell
-$ npm install
-```
+run the countdown manually with
 
-### Copy `.env-example` to `.env`
+    npm run countdown
 
-```shell
-$ cp .env-example .env
-```
+### Responses
 
-### Configure
+If the server is running and a valid `SLACK_TOKEN` is present the responses configured in `src/responses.js` will trigger in slack when the pattern is matched.
 
-```shell
-SLACK_TEAM_TOKEN=xoxb...8WRqKWx
-NODE_ENV=development
-PORT=3000
-```
-### Run
+### Clojure
 
-```shell
-$ npm start
+There are two clojure implementations.
 
-🚀 Starbot LIVES on PORT 3000 🚀
-```
+Messages in slack prefixed with cljs will execute and respond as per the responses above.
 
-Visit [localhost:3000](http://localhost:3000).
+There is also a slash command configured. To hook this up create a new slash command in slack pointing to yoursite/commands/clojsure and set the `CLOJURE_COMMAND_TOKEN` variable. This will add the `/clojure` command to slack which can be used like `/clojure (+ 1 4)`. The output of this command would be
 
-### Deploy
-
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
-
-_Or with the [Heroku Toolbelt](https://toolbelt.heroku.com)_
-
-```shell
-$ heroku create {optional-app-name}
-
-Creating app... done, stack is cedar-14
-https://blooming-scrubland-64464.herokuapp.com/
-
-$ git push heroku master
-...
-remote: -----> Node.js app detected
-...
-remote:        https://blooming-scrubland-64464.herokuapp.com/ deployed to Heroku
-...
-To https://git.heroku.com/blooming-scrubland-64464.git
- * [new branch]      master -> master
-
-$ heroku open
-```
-
-### License
-
-**[This project is licensed under the terms of the MIT license.](http://license-me.herokuapp.com)**
- -- [_Need your own? There's a button for that :wink:_](https://github.com/mattcreager/license)
+> 5
