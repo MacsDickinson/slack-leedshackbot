@@ -42,8 +42,8 @@ function timeUntilBreakfast() {
 
 const responses = [
   { pattern: /(hello|hi|hey|hola)/g, response: 'hi' },
-  { pattern: /how long until (breakfast|food)/g, response: timeUntilBreakfast() },
-  { pattern: /how long until beer/g, response: timeUntilBeer() },
+  { pattern: /how long until (breakfast|food|bacon)/g, response: timeUntilBreakfast() },
+  { pattern: /how long until (beer|drinks|the bar opens)/g, response: timeUntilBeer() },
   { pattern: /how long/g, response: hackTimeRemaining() },
   { pattern: /should I go to sleep\?/g, response: 'Probably' },
   { pattern: /server time/g, response: moment().format() }
@@ -55,7 +55,7 @@ function matchResponse(input) {
       return responses[i].response;
     }
   }
-  return 'beep boop: I hear you but I do not understand you.';
+  return null;
 }
 
 module.exports = matchResponse;
