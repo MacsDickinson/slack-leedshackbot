@@ -30,7 +30,7 @@ function executeClojure(msg) {
     const closure = msg.text.replace('cljs ', '');
     const result = cljs.eval(closure, ctx);
     console.log('result -> ', result);
-    if (typeof result === 'string') {
+    if (typeof result === 'string' || typeof result === 'number' || typeof result === 'boolean') {
       postResponse(result, msg.channel);
     }
   } catch (e) {
