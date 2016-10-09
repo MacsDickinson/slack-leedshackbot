@@ -9,7 +9,7 @@ const config = {
   PORT: process.env.PORT,
   PROXY_URI: process.env.PROXY_URI,
   WEBHOOK_URL: process.env.WEBHOOK_URL,
-  STARBOT_COMMAND_TOKEN: process.env.STARBOT_COMMAND_TOKEN,
+  CLOJURE_COMMAND_TOKEN: process.env.CLOJURE_COMMAND_TOKEN,
   SLACK_TOKEN: process.env.SLACK_TOKEN,
   ICON_EMOJI: process.env.ICON_EMOJI
 };

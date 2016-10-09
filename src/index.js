@@ -21,10 +21,8 @@ app.get('/', (req, res) => { res.send('\n 👋 🌍 \n'); });
 
 app.post('/commands/clojure', (req, res) => {
   const payload = req.body;
-  console.log('/commands/clojure => req => ', req);
-  console.log('/commands/clojure => payload => ', payload);
 
-  if (!payload || payload.token !== config('CLOJURE_COMMAND_TOKEN')) {
+  if (payload.token !== config('CLOJURE_COMMAND_TOKEN')) {
     const err = '✋  An invalid slash token was provided\n' +
               '   Is your Slack slash token correctly configured?';
 
