@@ -2,6 +2,7 @@ const express = require('express');
 const proxy = require('express-http-proxy');
 const bodyParser = require('body-parser');
 const config = require('./config');
+const clojure = require('./commands/clojure');
 
 const bot = require('./bot');
 
@@ -30,11 +31,7 @@ app.post('/commands/clojure', (req, res) => {
     return;
   }
 
-  const cmd = _.reduce(commands, (a, cmd) => {
-    return payload.text.match(cmd.pattern) ? cmd : a
-  }, helpCommand)
-
-  cmd.handler(payload, res)
+  clojure(payload, res);
 });
 
 

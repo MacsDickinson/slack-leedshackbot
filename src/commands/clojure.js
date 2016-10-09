@@ -31,6 +31,14 @@ const handler = (payload, res) => {
 
     res.set('content-type', 'application/json');
     res.status(200).json(msg);
+  } else {
+    res.set('content-type', 'application/json');
+    res.status(200).json({
+      channel: payload.channel_name,
+      username: config('ICON_EMOJI'),
+      icon_emoji: config('ICON_EMOJI'),
+      text: `> :+1:`
+    });
   }
 };
 
