@@ -1,3 +1,5 @@
+'use strict';
+
 const cljs = require('clojurescript');
 const config = require('../config');
 
@@ -37,7 +39,7 @@ const handler = (payload, res) => {
       channel: payload.channel_name,
       username: config('ICON_EMOJI'),
       icon_emoji: config('ICON_EMOJI'),
-      text: `> :+1:`
+      text: '> :+1:'
     });
   }
 };
