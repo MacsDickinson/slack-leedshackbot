@@ -7,12 +7,11 @@ let ctx = cljs.newContext();
 
 function executeClojure(msg) {
   try {
-    const closure = msg.text.replace('cljs ', '');
-    if (closure === 'reset') {
+    if (msg === 'reset') {
       ctx = cljs.newContext();
       return 'clojure context reset';
     }
-    const result = cljs.eval(closure, ctx);
+    const result = cljs.eval(msg, ctx);
     console.log('result -> ', result);
     return result;
   } catch (e) {
