@@ -18,6 +18,26 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => { res.send('\n 👋 🌍 \n'); });
 
+app.post('/commands/clojure', (req, res) => {
+  const payload = req.body;
+
+  if (!payload || payload.token !== config('CLOJURE_COMMAND_TOKEN')) {
+    const err = '✋  An invalid slash token was provided\n' +
+              '   Is your Slack slash token correctly configured?';
+
+    console.log(err);
+    res.status(401).end(err);
+    return;
+  }
+
+  const cmd = _.reduce(commands, (a, cmd) => {
+    return payload.text.match(cmd.pattern) ? cmd : a
+  }, helpCommand)
+
+  cmd.handler(payload, res)
+});
+
+
 app.listen(config('PORT'), (err) => {
   if (err) throw err;
 
